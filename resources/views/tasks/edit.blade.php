@@ -1,111 +1,211 @@
 <x-app-layout>
-    <div class="container mt-4">
 
-        <h2>Edit Task</h2>
+    <div class="container py-5">
 
-        <form action="{{ route('tasks.update', $task->id) }}" method="POST">
+        <div class="form-card">
 
-            @csrf
-            @method('PUT')
+            <div class="mb-4">
 
-            <div class="mb-3">
-                <label class="form-label">Title</label>
+                <h1 class="edit-title fw-bold mb-1">
+                    Edit Task
+                </h1>
 
-                <input type="text"
-                       name="title"
-                       class="form-control"
-                       value="{{ old('title', $task->title) }}">
+                <p class="text-secondary mb-0">
+                    Update your task details.
+                </p>
 
-                @error('title')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
             </div>
 
-            <div class="mb-3">
-                <label class="form-label">Description</label>
 
-                <textarea name="description"
-                          class="form-control"
-                          rows="4">{{ old('description', $task->description) }}</textarea>
+            <form action="{{ route('tasks.update', $task->id) }}" method="POST">
 
-                @error('description')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
+                @csrf
+                @method('PUT')
 
-            <div class="mb-3">
-                <label class="form-label">Status</label>
 
-                <select name="status" class="form-select">
 
-                    <option value="pending"
-                        {{ old('status', $task->status) == 'pending' ? 'selected' : '' }}>
-                        Pending
-                    </option>
+                <div class="mb-4">
 
-                    <option value="in_progress"
-                        {{ old('status', $task->status) == 'in_progress' ? 'selected' : '' }}>
-                        In Progress
-                    </option>
+                    <label class="form-label text-light">
+                        Title
+                    </label>
 
-                    <option value="completed"
-                        {{ old('status', $task->status) == 'completed' ? 'selected' : '' }}>
-                        Completed
-                    </option>
+                    <input type="text" name="title" class="form-control custom-input"
+                        value="{{ old('title', $task->title) }}">
 
-                </select>
+                    @error('title')
+                        <small class="error-text">
+                            {{ $message }}
+                        </small>
+                    @enderror
 
-                @error('status')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
 
-            <div class="mb-3">
-                <label class="form-label">Due Date</label>
+                </div>
 
-                <input type="date"
-                       name="due_date"
-                       class="form-control"
-                       value="{{ old('due_date', $task->due_date) }}">
 
-                @error('due_date')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
+                <div class="mb-4">
 
-            <div class="mb-3">
-                <label class="form-label">Category</label>
+                    <label class="form-label text-light">
+                        Description
+                    </label>
 
-                <select name="category_id" class="form-select">
+                    <textarea name="description" rows="4" class="form-control custom-input">{{ old('description', $task->description) }}</textarea>
 
-                    @foreach($categories as $category)
+                    
 
-                        <option value="{{ $category->id }}"
-                            {{ old('category_id', $task->category_id) == $category->id ? 'selected' : '' }}>
+                </div>
 
-                            {{ $category->name }}
 
+                <div class="mb-4">
+
+                    <label class="form-label text-light">
+                        Status
+                    </label>
+
+                    <select name="status" class="form-select custom-input">
+
+                        <option value="pending" {{ old('status', $task->status) == 'pending' ? 'selected' : '' }}>
+                            Pending
                         </option>
 
-                    @endforeach
+                        <option value="in_progress"
+                            {{ old('status', $task->status) == 'in_progress' ? 'selected' : '' }}>
+                            In Progress
+                        </option>
 
-                </select>
+                        <option value="completed" {{ old('status', $task->status) == 'completed' ? 'selected' : '' }}>
+                            Completed
+                        </option>
 
-                @error('category_id')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
+                    </select>
 
-            <button type="submit" class="btn btn-primary">
-                Update Task
-            </button>
+                  
 
-            <a href="{{ route('tasks.index') }}"
-               class="btn btn-secondary">
-                Cancel
-            </a>
+                </div>
 
-        </form>
+
+                <div class="mb-4">
+
+                    <label class="form-label text-light">
+                        Due Date
+                    </label>
+
+                    <input type="date" name="due_date" class="form-control custom-input"
+                        value="{{ old('due_date', $task->due_date) }}">
+
+                  
+
+                </div>
+
+
+                <div class="mb-4">
+
+                    <label class="form-label text-light">
+                        Category
+                    </label>
+
+                    <select name="category_id" class="form-select custom-input">
+
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ old('category_id', $task->category_id) == $category->id ? 'selected' : '' }}>
+
+                                {{ $category->name }}
+
+                            </option>
+                        @endforeach
+
+                    </select>
+
+                   
+
+                </div>
+
+
+                <div class="d-flex gap-3">
+
+                    <button type="submit" class="btn-update">
+                        Update Task
+                    </button>
+
+                    <a href="{{ route('tasks.index') }}" class="btn-cancel">
+
+                        Cancel
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
 
     </div>
+
+
+    <style>
+        .form-card {
+            max-width: 800px;
+            margin: auto;
+            background: #f2f4f6;
+            border: 1px solid #334155;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, .3);
+        }
+
+        .edit-title {
+            color: #60a5fa;
+        }
+
+        .custom-input {
+            background: #334155;
+            border: 1px solid #475569;
+            color: white;
+            border-radius: 14px;
+            padding: 14px;
+        }
+
+        .custom-input:focus {
+            background: #334155;
+            color: white;
+            border-color: #3b82f6;
+            box-shadow: none;
+        }
+
+        .btn-update {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+        }
+
+        .btn-update:hover {
+            background: #059669;
+        }
+
+        .btn-cancel {
+            background: #475569;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+        }
+
+        .btn-cancel:hover {
+            background: #334155;
+            color: white;
+        }
+
+        .error-text {
+            color: #ef4444 !important;
+            font-size: 14px;
+            display: block;
+            margin-top: 6px;
+        }
+    </style>
+
 </x-app-layout>

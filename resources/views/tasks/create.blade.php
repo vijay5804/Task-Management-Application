@@ -1,97 +1,223 @@
 <x-app-layout>
-    <div class="container mt-4">
 
-        <h2>Create New Task</h2>
+    <div class="container py-5">
 
-        <form action="{{ route('tasks.store') }}" method="POST">
+        <div class="form-card">
 
-            @csrf
+            <div class="mb-4">
+                <h1 class="text-white fw-bold mb-1 title-text">
+                    Create New Task
+                </h1>
 
-            <div class="mb-3">
-                <label>Title</label>
-
-                <input type="text"
-                       name="title"
-                       class="form-control"
-                       value="{{ old('title') }}">
-
-                @error('title')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
+                <p class="text-secondary mb-0">
+                    Add a new task to your task manager.
+                </p>
             </div>
 
-            <div class="mb-3">
-                <label>Description</label>
 
-                <textarea name="description"
-                          class="form-control">{{ old('description') }}</textarea>
+            <form action="{{ route('tasks.store') }}" method="POST">
 
-                @error('description')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
+                @csrf
 
-            <div class="mb-3">
-                <label>Status</label>
+                <div class="mb-4">
 
-                <select name="status" class="form-control">
+                    <label class="form-label text-light">
+                        Title
+                    </label>
 
-                    <option value="pending">Pending</option>
+                    <input type="text" name="title" class="form-control custom-input" value="{{ old('title') }}"
+                        placeholder="Enter task title">
 
-                    <option value="in_progress">In Progress</option>
+                    @error('title')
+                        <small class="error-text">
+                            {{ $message }}
+                        </small>
+                    @enderror
 
-                    <option value="completed">Completed</option>
+                </div>
 
-                </select>
 
-                @error('status')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
+                <div class="mb-4">
 
-            <div class="mb-3">
-                <label>Due Date</label>
+                    <label class="form-label text-light">
+                        Description
+                    </label>
 
-                <input type="date"
-                       name="due_date"
-                       class="form-control"
-                       value="{{ old('due_date') }}">
+                    <textarea name="description" rows="4" class="form-control custom-input" placeholder="Task description">{{ old('description') }}</textarea>
 
-                @error('due_date')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
+                    @error('description')
+                        <small class="error-text">
+                            {{ $message }}
+                        </small>
+                    @enderror
 
-            <div class="mb-3">
-                <label>Category</label>
+                </div>
 
-                <select name="category_id" class="form-control">
 
-                    @foreach($categories as $category)
+                <div class="mb-4">
 
-                        <option value="{{ $category->id }}">
-                            {{ $category->name }}
+                    <label class="form-label text-light">
+                        Status
+                    </label>
+
+                    <select name="status" class="form-select custom-input">
+
+                        <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>
+                            Pending
                         </option>
 
-                    @endforeach
+                        <option value="in_progress" {{ old('status') == 'in_progress' ? 'selected' : '' }}>
+                            In Progress
+                        </option>
 
-                </select>
+                        <option value="completed" {{ old('status') == 'completed' ? 'selected' : '' }}>
+                            Completed
+                        </option>
 
-                @error('category_id')
-                    <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
+                    </select>
 
-            <button class="btn btn-success">
-                Save Task
-            </button>
+                    @error('status')
+                        <small class="text-danger">
+                            {{ $message }}
+                        </small>
+                    @enderror
 
-            <a href="{{ route('tasks.index') }}"
-               class="btn btn-secondary">
-                Cancel
-            </a>
+                </div>
 
-        </form>
+
+                <div class="mb-4">
+
+                    <label class="form-label text-light">
+                        Due Date
+                    </label>
+
+                    <input type="date" name="due_date" class="form-control custom-input"
+                        value="{{ old('due_date') }}">
+
+                    @error('due_date')
+                        <small class="error-text">
+                            {{ $message }}
+                        </small>
+                    @enderror
+
+                </div>
+
+
+                <div class="mb-4">
+
+                    <label class="form-label text-light">
+                        Category
+                    </label>
+
+                    <select name="category_id" class="form-select custom-input">
+
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ old('category_id') == $category->id ? 'selected' : '' }}>
+
+                                {{ $category->name }}
+
+                            </option>
+                        @endforeach
+
+                    </select>
+
+                    @error('category_id')
+                        <small class="text-danger">
+                            {{ $message }}
+                        </small>
+                    @enderror
+
+                </div>
+
+
+                <div class="d-flex gap-3">
+
+                    <button type="submit" class="btn-save">
+
+                        Save Task
+
+                    </button>
+
+
+                    <a href="{{ route('tasks.index') }}" class="btn-cancel">
+
+                        Cancel
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
 
     </div>
+
+
+    <style>
+        .form-card {
+            max-width: 800px;
+            margin: auto;
+            background: #f1f2f4;
+            border: 1px solid #334155;
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, .3);
+        }
+
+        .custom-input {
+            background: #0f172a;
+            border: 1px solid #475569;
+            color: white;
+            border-radius: 14px;
+            padding: 14px;
+        }
+
+        .custom-input:focus {
+            background: #0f172a;
+            color: white;
+            border-color: #3b82f6;
+            box-shadow: none;
+        }
+
+        .btn-save {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+        }
+
+        .btn-save:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-cancel {
+            background: #475569;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+        }
+
+        .btn-cancel:hover {
+            background: #334155;
+            color: white;
+        }
+
+        .title-text {
+            color: #1752dc;
+        }
+
+        .error-text {
+            color: #ef4444 !important;
+            font-size: 14px;
+            display: block;
+            margin-top: 6px;
+        }
+    </style>
+
 </x-app-layout>

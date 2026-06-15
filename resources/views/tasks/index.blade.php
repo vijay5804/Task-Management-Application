@@ -1,33 +1,26 @@
-
 <x-app-layout>
 
-    <div class="container py-5">
-
-        @if(session('success'))
-            <div class="alert alert-success rounded-4 shadow-sm mb-4">
+    <div class="container py-5 page-content">
+        @if (session('success'))
+            <div class="alert alert-success">
                 {{ session('success') }}
             </div>
         @endif
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="header-section">
 
-            <div>
-                <h1 class="text-white fw-bold mb-1">
-                    My Tasks
-                </h1>
+            <h1 class="fw-bold text-light mb-0">
+                My Tasks
+            </h1>
 
-                
-            </div>
-
-            <a href="{{ route('tasks.create') }}"
-               class="btn btn-add">
+            <a href="{{ route('tasks.create') }}" class="btn-add">
                 + Add New Task
             </a>
 
         </div>
 
 
-        @if($tasks->count())
+        @if ($tasks->count())
 
             <div class="task-container">
 
@@ -42,8 +35,7 @@
                 </div>
 
 
-                @foreach($tasks as $task)
-
+                @foreach ($tasks as $task)
                     <div class="task-item">
 
                         <div class="task-info">
@@ -66,24 +58,18 @@
 
                         <div>
 
-                            @if($task->status == 'pending')
-
+                            @if ($task->status == 'pending')
                                 <span class="status pending">
                                     Pending
                                 </span>
-
                             @elseif($task->status == 'in_progress')
-
                                 <span class="status progress">
                                     In Progress
                                 </span>
-
                             @else
-
                                 <span class="status completed">
                                     Completed
                                 </span>
-
                             @endif
 
                         </div>
@@ -98,17 +84,15 @@
 
                         <div class="task-actions">
 
-                            <a href="{{ route('tasks.edit',$task->id) }}"
-                               class="btn-edit">
+                            <a href="{{ route('tasks.edit', $task->id) }}" class="btn-edit">
 
                                 ✏ Edit
 
                             </a>
 
 
-                            <form action="{{ route('tasks.destroy',$task->id) }}"
-                                  method="POST"
-                                  onsubmit="return confirm('Delete this task?')">
+                            <form action="{{ route('tasks.destroy', $task->id) }}" method="POST"
+                                onsubmit="return confirm('Delete this task?')">
 
                                 @csrf
                                 @method('DELETE')
@@ -124,13 +108,10 @@
                         </div>
 
                     </div>
-
                 @endforeach
 
             </div>
-
         @else
-
             <div class="task-container text-center p-5">
 
                 <h4 class="text-light">
@@ -149,135 +130,148 @@
 
 
     <style>
-
-        body{
-            background:#0f172a;
+        
+        .page-content {
+            background: #0f172a;
+            min-height: 100vh;
         }
 
-        .task-container{
-            background:#1e293b;
-            border-radius:24px;
-            overflow:hidden;
-            border:1px solid #334155;
-            box-shadow:0 10px 40px rgba(0,0,0,.3);
+        h1 {
+            color: white !important;
         }
 
-        .task-header{
-            display:grid;
-            grid-template-columns:3fr 1fr 1fr 1fr 1.3fr;
-            padding:25px;
-            color:#94a3b8;
-            font-size:14px;
-            font-weight:600;
-            border-bottom:1px solid #334155;
+        .alert-success {
+            background-color: #dcfce7 !important;
+            color: #15803d !important;
+            border-color: #22c55e !important;
         }
 
-        .task-item{
-            display:grid;
-            grid-template-columns:3fr 1fr 1fr 1fr 1.3fr;
-            gap:20px;
-            align-items:center;
-            padding:25px;
-            border-bottom:1px solid #334155;
-            transition:.3s;
+
+        .task-container {
+            background: #1e293b;
+            border-radius: 24px;
         }
 
-        .task-item:hover{
-            background:#273549;
+        .task-header {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr 1fr 1.3fr;
+            padding: 25px;
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: 600;
+            border-bottom: 1px solid #334155;
         }
 
-        .task-info h5{
-            color:white;
-            margin-bottom:5px;
-            font-weight:600;
+        .task-item {
+            display: grid;
+            grid-template-columns: 3fr 0.8fr 1fr 1fr 1.3fr;
+            gap: 20px;
+            align-items: center;
+            padding: 25px;
+            border-bottom: 1px solid #334155;
         }
 
-        .task-info p{
-            color:#94a3b8;
-            margin:0;
+        .task-item:hover {
+            background: #273549;
+        }
+
+        .task-info h5 {
+            color: white;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .task-info p {
+            color: #94a3b8;
         }
 
         .task-category,
-        .task-date{
-            color:white;
+        .task-date {
+            color: white;
         }
 
-        .task-actions{
-            display:flex;
-            gap:12px;
+        .task-actions {
+            display: flex;
+            gap: 12px;
         }
 
-        .status{
-            padding:10px 18px;
-            border-radius:30px;
-            font-weight:600;
-            display:inline-block;
+        .status {
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-weight: 600;
+            
         }
 
-        .pending{
-            background:#fff3cd;
-            color:#8a5a00;
+        .pending {
+            background: #fff3cd;
+            color: #8a5a00;
         }
 
-        .progress{
-            background:#dbeafe;
-            color:#1d4ed8;
+        .progress {
+            background: #dbeafe;
+            color: #1d4ed8;
         }
 
-        .completed{
-            background:#dcfce7;
-            color:#15803d;
+        .completed {
+            background: #dcfce7;
+            color: #15803d;
         }
 
-        .btn-add{
-            padding:12px 24px;
-            border:1px solid #475569;
-            color:rgb(228, 38, 38);
-            border-radius:18px;
-            text-decoration:none;
+        .header-section {
+            display: flex;
+            align-items: center;
+            width: 100%;
         }
 
-        .btn-add:hover{
-            background:white;
-            color:black;
+        .btn-add {
+            margin-left: auto;
+            padding: 12px 24px;
+            border: 1px solid #475569;
+            color: rgb(14, 10, 10);
+            border-radius: 18px;
+            background: #f8f9fa;
         }
-.btn-edit,
-.btn-delete {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 42px;
-    min-width: 100px;
-    padding: 0 18px;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 12px;
-}
 
-.btn-edit {
-    background: #2563eb;
-    color: white;
-    text-decoration: none;
-    border: none;
-}
+        .btn-add:hover {
+            background: rgb(12, 12, 12);
+            color: rgb(213, 12, 12);
+        }
 
-.btn-edit:hover {
-    background: #1d4ed8;
-    color: white;
-}
+        .btn-edit,
+        .btn-delete {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 42px;
+            min-width: 100px;
+            padding: 0 18px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 12px;
+        }
 
-.btn-delete {
-    background: #dc2626;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
+        .btn-edit {
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border: none;
+        }
 
-.btn-delete:hover {
-    background: #b91c1c;
-}
+        .btn-edit:hover {
+            background: #1d4ed8;
+            color: white;
+        }
 
+        .btn-delete {
+            background: #dc2626;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-delete:hover {
+            background: #b91c1c;
+        }
     </style>
 
 </x-app-layout>
-
