@@ -59,8 +59,11 @@
                     <label class="form-label text-light">
                         Status
                     </label>
-
                     <select name="status" class="form-select custom-input">
+
+                        <option value="" disabled selected>
+                            -- Select Status --
+                        </option>
 
                         <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>
                             Pending
@@ -77,7 +80,7 @@
                     </select>
 
                     @error('status')
-                        <small class="text-danger">
+                        <small class="error-text">
                             {{ $message }}
                         </small>
                     @enderror
@@ -111,6 +114,10 @@
 
                     <select name="category_id" class="form-select custom-input">
 
+                        <option value="" {{ old('category_id') == '' ? 'selected' : '' }}>
+                            -- Select Category --
+                        </option>
+
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}"
                                 {{ old('category_id') == $category->id ? 'selected' : '' }}>
@@ -123,7 +130,7 @@
                     </select>
 
                     @error('category_id')
-                        <small class="text-danger">
+                        <small class="error-text">
                             {{ $message }}
                         </small>
                     @enderror
