@@ -1,15 +1,15 @@
 <x-app-layout>
 
-    <div class="container py-5">
+    <div class="container py-1">
 
         <div class="form-card">
 
             <div class="mb-4">
-                <h1 class="text-white fw-bold mb-1 title-text">
+                <h1 class="title-text fw-bold">
                     Create New Task
                 </h1>
 
-                <p class="text-secondary mb-0">
+                <p class="text-secondary">
                     Add a new task to your task manager.
                 </p>
             </div>
@@ -19,9 +19,10 @@
 
                 @csrf
 
+
                 <div class="mb-4">
 
-                    <label class="form-label text-light">
+                    <label class="form-label field-label">
                         Title
                     </label>
 
@@ -39,11 +40,11 @@
 
                 <div class="mb-4">
 
-                    <label class="form-label text-light">
+                    <label class="form-label field-label">
                         Description
                     </label>
 
-                    <textarea name="description" rows="4" class="form-control custom-input" placeholder="Task description">{{ old('description') }}</textarea>
+                    <textarea name="description" rows="2" class="form-control custom-input" placeholder="Task description">{{ old('description') }}</textarea>
 
                     @error('description')
                         <small class="error-text">
@@ -56,12 +57,13 @@
 
                 <div class="mb-4">
 
-                    <label class="form-label text-light">
+                    <label class="form-label field-label">
                         Status
                     </label>
+
                     <select name="status" class="form-select custom-input">
 
-                        <option value="" disabled selected>
+                        <option value="" {{ old('status') == '' ? 'selected' : '' }}>
                             -- Select Status --
                         </option>
 
@@ -90,7 +92,7 @@
 
                 <div class="mb-4">
 
-                    <label class="form-label text-light">
+                    <label class="form-label field-label">
                         Due Date
                     </label>
 
@@ -108,16 +110,16 @@
 
                 <div class="mb-4">
 
-                    <label class="form-label text-light">
+                    <label class="form-label field-label">
                         Category
                     </label>
 
                     <select name="category_id" class="form-select custom-input">
-
-                        <option value="" {{ old('category_id') == '' ? 'selected' : '' }}>
+                         <option value="" {{ old('category_id') == '' ? 'selected' : '' }}>
                             -- Select Category --
                         </option>
 
+                        
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}"
                                 {{ old('category_id') == $category->id ? 'selected' : '' }}>
@@ -141,16 +143,11 @@
                 <div class="d-flex gap-3">
 
                     <button type="submit" class="btn-save">
-
                         Save Task
-
                     </button>
 
-
                     <a href="{{ route('tasks.index') }}" class="btn-cancel">
-
                         Cancel
-
                     </a>
 
                 </div>
@@ -163,22 +160,41 @@
 
 
     <style>
+        
+       
+
         .form-card {
             max-width: 800px;
             margin: auto;
             background: #f1f2f4;
-            border: 1px solid #334155;
             border-radius: 24px;
-            padding: 40px;
+            padding: 15px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, .3);
         }
 
-        .custom-input {
+        .title-text {
+            color: #1752dc;
+        }
+
+        .field-label {
+            display: block;
+            margin-bottom: 4px;
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+       .custom-input {
+            width: 100%;
             background: #0f172a;
             border: 1px solid #475569;
             color: white;
             border-radius: 14px;
             padding: 14px;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
         }
 
         .custom-input:focus {
@@ -215,15 +231,11 @@
             color: white;
         }
 
-        .title-text {
-            color: #1752dc;
-        }
-
         .error-text {
-            color: #ef4444 !important;
-            font-size: 14px;
+            color: #ef4444;
             display: block;
             margin-top: 6px;
+            font-size: 14px;
         }
     </style>
 

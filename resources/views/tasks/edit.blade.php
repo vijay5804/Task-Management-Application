@@ -1,19 +1,17 @@
 <x-app-layout>
 
-    <div class="container py-5">
+    <div class="container py-4">
 
         <div class="form-card">
 
             <div class="mb-4">
-
-                <h1 class="edit-title fw-bold mb-1">
+                <h1 class="text-white fw-bold mb-1 title-text">
                     Edit Task
                 </h1>
 
                 <p class="text-secondary mb-0">
                     Update your task details.
                 </p>
-
             </div>
 
 
@@ -22,16 +20,14 @@
                 @csrf
                 @method('PUT')
 
-
-
                 <div class="mb-4">
 
-                    <label class="form-label text-light">
+                    <label class="form-label text-light d-block mb-2">
                         Title
                     </label>
 
                     <input type="text" name="title" class="form-control custom-input"
-                        value="{{ old('title', $task->title) }}">
+                        value="{{ old('title', $task->title) }}" placeholder="Enter task title">
 
                     @error('title')
                         <small class="error-text">
@@ -39,26 +35,29 @@
                         </small>
                     @enderror
 
-
                 </div>
 
 
                 <div class="mb-4">
 
-                    <label class="form-label text-light">
+                    <label class="form-label text-light d-block mb-2">
                         Description
                     </label>
 
-                    <textarea name="description" rows="4" class="form-control custom-input">{{ old('description', $task->description) }}</textarea>
+                    <textarea name="description" rows="2.5" class="form-control custom-input" placeholder="Task description">{{ old('description', $task->description) }}</textarea>
 
-                    
+                    @error('description')
+                        <small class="error-text">
+                            {{ $message }}
+                        </small>
+                    @enderror
 
                 </div>
 
 
                 <div class="mb-4">
 
-                    <label class="form-label text-light">
+                    <label class="form-label text-light d-block mb-2">
                         Status
                     </label>
 
@@ -79,28 +78,36 @@
 
                     </select>
 
-                  
+                    @error('status')
+                        <small class="error-text">
+                            {{ $message }}
+                        </small>
+                    @enderror
 
                 </div>
 
 
                 <div class="mb-4">
 
-                    <label class="form-label text-light">
+                    <label class="form-label text-light d-block mb-2">
                         Due Date
                     </label>
 
                     <input type="date" name="due_date" class="form-control custom-input"
                         value="{{ old('due_date', $task->due_date) }}">
 
-                  
+                    @error('due_date')
+                        <small class="error-text">
+                            {{ $message }}
+                        </small>
+                    @enderror
 
                 </div>
 
 
                 <div class="mb-4">
 
-                    <label class="form-label text-light">
+                    <label class="form-label text-light d-block mb-2">
                         Category
                     </label>
 
@@ -117,21 +124,23 @@
 
                     </select>
 
-                   
+                    @error('category_id')
+                        <small class="error-text">
+                            {{ $message }}
+                        </small>
+                    @enderror
 
                 </div>
 
 
                 <div class="d-flex gap-3">
 
-                    <button type="submit" class="btn-update">
+                    <button type="submit" class="btn-save">
                         Update Task
                     </button>
 
                     <a href="{{ route('tasks.index') }}" class="btn-cancel">
-
                         Cancel
-
                     </a>
 
                 </div>
@@ -144,37 +153,41 @@
 
 
     <style>
+        
+
         .form-card {
             max-width: 800px;
             margin: auto;
-            background: #f2f4f6;
+            background: #f1f2f4;
             border: 1px solid #334155;
             border-radius: 24px;
-            padding: 40px;
+            padding: 15px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, .3);
         }
 
-        .edit-title {
-            color: #60a5fa;
-        }
-
         .custom-input {
-            background: #334155;
+            width: 100%;
+            background: #0f172a;
             border: 1px solid #475569;
             color: white;
             border-radius: 14px;
             padding: 14px;
         }
 
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+
         .custom-input:focus {
-            background: #334155;
+            background: #0f172a;
             color: white;
             border-color: #3b82f6;
             box-shadow: none;
         }
 
-        .btn-update {
-            background: #10b981;
+        .btn-save {
+            background: #2563eb;
             color: white;
             border: none;
             padding: 12px 24px;
@@ -182,8 +195,8 @@
             font-weight: 600;
         }
 
-        .btn-update:hover {
-            background: #059669;
+        .btn-save:hover {
+            background: #1d4ed8;
         }
 
         .btn-cancel {
@@ -200,8 +213,12 @@
             color: white;
         }
 
+        .title-text {
+            color: #1752dc;
+        }
+
         .error-text {
-            color: #ef4444 !important;
+            color: #ef4444;
             font-size: 14px;
             display: block;
             margin-top: 6px;

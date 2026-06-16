@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <div class="container py-5 page-content">
+    <div class="container-fluid py-5 page-content px-4">
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -130,13 +130,11 @@
 
 
     <style>
-        
         .page-content {
             background: #0f172a;
-            min-height: 100vh;
         }
 
-        h1 {
+        h1,p,h4 {
             color: white !important;
         }
 
@@ -199,7 +197,7 @@
             padding: 10px 18px;
             border-radius: 30px;
             font-weight: 600;
-            
+
         }
 
         .pending {
